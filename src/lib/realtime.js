@@ -1,15 +1,9 @@
-const API_HOST = import.meta.env.VITE_API_URL || location.origin
-const proto = location.protocol === 'https:' ? 'wss' : 'ws'
-const host = new URL(API_HOST).host
-
-
-const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL ?? '').replace(/\/$/, '')
+const API_URL = import.meta.env.VITE_API_URL || location.origin
+const proto = API_URL.includes('https') ? 'wss' : 'ws'
+const host = new URL(API_URL).host
 
 export function connectAudio({ onOpen, onPartial, onFinal, onAnswer, onAudioChunk, onError, onClose }) {
-  const url = BACKEND_URL
-    ? BACKEND_URL.replace(/^http/, 'ws') + '/ws/audio'
-    : `${proto}://${location.host}/ws/audio`
-  const ws = new WebSocket(url)
+  const ws = new WebSocket(`${proto}://${host}/ws/audio`)
   ws.binaryType = 'arraybuffer'
 
   ws.onopen = () => onOpen?.(ws)
