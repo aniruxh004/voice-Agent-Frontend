@@ -80,12 +80,14 @@ export default function App() {
     setMicError(null)
     setStatus(STATUS.CONNECTING)
     const ws = connectAudio({
-      onOpen: async () => {
+       onOpen: async () => {
         setStatus(STATUS.LISTENING)
         ws.send(JSON.stringify({ type: 'start', sampleRate: 48000, sessionId: sessionIdRef.current }))
         try {
           const capture = await startCapture({
-            onPcmFrame: (buffer) => ws.send(buffer),
+            onPcmFrame: (buffer) => {
+              if (ws.readyState === WebSocket.OPEN) ws.send(buffer)
+            },
           })
           captureRef.current = capture
         } catch (err) {
