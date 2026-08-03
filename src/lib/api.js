@@ -1,5 +1,5 @@
 const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL ?? '').replace(/\/$/, '')
-const BASE = `${BACKEND_URL}/ask`
+const BASE = `${import.meta.env.VITE_API_URL}/ask`
 
 export async function askQuestion(question) {
   const res = await fetch(BASE, {
@@ -13,3 +13,5 @@ export async function askQuestion(question) {
   }
   return res.json()
 }
+
+

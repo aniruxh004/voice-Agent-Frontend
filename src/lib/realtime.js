@@ -1,4 +1,7 @@
+const API_HOST = import.meta.env.VITE_API_URL || location.origin
 const proto = location.protocol === 'https:' ? 'wss' : 'ws'
+const host = new URL(API_HOST).host
+
 
 const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL ?? '').replace(/\/$/, '')
 
